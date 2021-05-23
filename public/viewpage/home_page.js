@@ -14,8 +14,8 @@ export function addEventListeners(){
 }
 
 export async function home_page(){
-    Element.root.innerHTML ='<h1>Home Page</h1>'
-
+    
+    let html = '<h1>Enjoy Shopping</h1>'
     let products;
     try{
         products = await FirebaseController.getProductList();
@@ -23,4 +23,25 @@ export async function home_page(){
         if(Constant.DEV) console.log(e);
         Util.info('Cannot get product info', JSON.stringify(e));
     }
+    //each product is rendered
+    for(let i = 0; i<products.length; i++){
+        html+= buildProductView(products[i], i)
+    }
+
+    Element.root.innerHTML = html;
+}
+
+function buildProductView(product, index){
+    return `
+    <div class="card" style="width: 18rem; display: inline-block">
+     <img src="${product.imageURL}" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">${product.name}</h5>
+            <p class="card-text">
+            ${product.price}<br>
+            ${product.summary}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    `;
 }
