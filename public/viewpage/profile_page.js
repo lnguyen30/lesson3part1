@@ -1,8 +1,12 @@
 import * as Element from './element.js'
+import * as Route from '../controller/route.js'
+
 
 //event listeners for profile page
 export function addEventListeners(){
     Element.menuProfile.addEventListener('click', async ()=>{
+        history.pushState(null, null, Route.routePathnames.PROFILE);
+
         await profile_page();
     })
 }

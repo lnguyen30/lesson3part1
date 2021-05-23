@@ -17,3 +17,10 @@ window.onload = ()=>{
     const hash = window.location.hash;
     Route.routing(pathname, hash)
 }
+
+window.addEventListener('popstate', e =>{ // updates url after user presses forward or backward 
+    e.preventDefault();
+    const pathname = e.target.location.pathname;
+    const hash = e.target.location.hash;
+    Route.routing(pathname, hash);
+});
