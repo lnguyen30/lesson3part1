@@ -1,5 +1,6 @@
 import * as Element from '../viewpage/element.js'
 import * as FirebaseController from './firebase_controller.js'
+import * as Util from '../viewpage/util.js'
 //event listener for sign in
 export function addEventListeners(){
     Element.formSignin.addEventListener('submit', async e => {
@@ -14,6 +15,8 @@ export function addEventListeners(){
             Element.modalSignin.hide();
         }catch(e){
             console.log(e);
+            Util.info('Sign In Error', JSON.stringify(e), Element.modalSignin);
+            
         }
     })
 
