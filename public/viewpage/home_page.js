@@ -3,6 +3,7 @@ import * as Route from '../controller/route.js'
 import * as FirebaseController from '../controller/firebase_controller.js'
 import * as Constant from '../model/constant.js'
 import * as Util from './util.js'
+import * as Auth from '../controller/auth.js'
 
 //event listeners for home page
 export function addEventListeners(){
@@ -38,9 +39,22 @@ function buildProductView(product, index){
         <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">
-            ${Util.currency(product.price)}<br>
-            ${product.summary}</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+                ${Util.currency(product.price)}<br>
+                ${product.summary}
+            </p>
+            <div class="container pt-3 bg-light ${Auth.currentUser ? 'd-block' : 'd-none'}">
+                <form method="post" class="d-inline">
+                    <input type="hidden" name="index" value="${index}">
+                    <button class="btn btn-outline-danger" type="submit">&minus;</button>
+                </form>
+                <div class="container rounded text-center text-white bg-primary d-inline-block w-50">
+                    ${product.qty == null || product.qty == 0 ? 'Add' : product.qty}
+                </div>
+                <form method="post" class="d-inline">
+                    <input type="hidden" name="index" value="${index}">
+                    <button class="btn btn-outline-primary" type="submit">&plus;</button>
+                </form>
+            </div>
         </div>
     </div>
     `;
