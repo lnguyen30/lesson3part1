@@ -87,13 +87,12 @@ function buildProductView(product, index){
         </div>
     </div>
     `;
-<<<<<<< HEAD
+
  }
-=======
-}
+
+
 
 //user calls cart object when signed in
 export function initShoppingCart(){
     cart = new ShoppingCart(Auth.currentUser.uid);
 }
->>>>>>> les31-33-event-listener-inc-dec-buttons
