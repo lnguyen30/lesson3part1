@@ -58,4 +58,4 @@ function buildProductView(product, index){
         </div>
     </div>
     `;
-}
+ }
