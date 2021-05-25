@@ -43,7 +43,7 @@ export async function home_page(){
             const p = products[e.target.index.value]
             //dec p from cart
             cart.removeItem(p);
-            document.getElementById('qty-' + p.docId).innerHTML = p.qty;
+            document.getElementById('qty-' + p.docId).innerHTML = (p.qty == 0 || p.qty == null) ? 'Add' : p.qty;
         })
     }
 
@@ -56,7 +56,8 @@ export async function home_page(){
             const p = products[e.target.index.value]
             //inc p to cart
             cart.addItem(p);
-            document.getElementById('qty-' + p.docId).innerHTML = (p.qty == 0 || p.qty == null) ? 'Add' : p.qty;
+            document.getElementById('qty-' + p.docId).innerHTML = p.qty;
+
         })
     }
 }
