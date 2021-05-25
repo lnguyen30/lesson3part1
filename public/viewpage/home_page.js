@@ -24,6 +24,15 @@ export async function home_page(){
     let products;
     try{
         products = await FirebaseController.getProductList();
+        //if cart isn't empty
+        if(cart){
+            cart.items.forEach(item =>{
+                //parses through each item and finds the specific product
+                const product = products.find(p=> item.docId == p.docId)
+                //updates label
+                product.qty = item.qty;
+            })
+        }
     }catch(e){
         if(Constant.DEV) console.log(e);
         Util.info('Cannot get product info', JSON.stringify(e));
@@ -101,5 +110,21 @@ function buildProductView(product, index){
 
 //user calls cart object when signed in
 export function initShoppingCart(){
-    cart = new ShoppingCart(Auth.currentUser.uid);
+
+    //creates or recreates cart after browser refreshes or user signs out/in
+    const cartString = window.localStorage.getItem('cart-' + Auth.currentUser.uid);
+    //cart will be new 
+    cart = ShoppingCart.parse(cartString);
+    if(!cart || !cart.isValid() || cart.uid != Auth.currentUser.uid){
+        //if invalid, then remove item
+        window.localStorage.removeItem('cart-' + Auth.currentUser.uid);
+        //create new shopping cart
+        cart = new ShoppingCart(Auth.currentUser.uid);
+    }
+
+    //cart = new ShoppingCart(Auth.currentUser.uid);
+
+    //update cart count
+
+    Element.shoppingCartCount.innerHTML = cart.getTotalQty();
 }

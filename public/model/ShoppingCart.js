@@ -1,3 +1,5 @@
+import { Product } from "./Product.js";
+
 export class ShoppingCart {
 
     constructor(uid){
@@ -23,6 +25,8 @@ export class ShoppingCart {
             ++product.qty;// label for each product
             ++item.qty; //shows amount in shopping cart
         }
+
+        this.saveToLocalStorage();
     }
 
     removeItem(product){
@@ -39,6 +43,39 @@ export class ShoppingCart {
             this.items.splice(index, 1); // removes shopping cart 
         }
 
+        this.saveToLocalStorage();
+
+    }
+
+    //using windows locatstorage to save items
+    saveToLocalStorage(){
+        window.localStorage.setItem( `cart-${this.uid}`, this.stringify())
+    }
+
+    //helper function savelocalstorage
+    stringify(){
+        return JSON.stringify({uid: this.uid, items: this.items})
+    }
+
+    //validates shopping cart
+    isValid(){
+        if(!this.uid) return false;
+        if(!this.items || !Array.isArray(this.items)) return false;
+        for(let i = 0; i < this.items.length; i++){
+            //checks if each product can be serialized in array
+            if(!Product.isSerializedProduct(this.items[i])) return false;
+        }
+        return true;
+    }
+
+    //parses through stringify cart
+    static parse(cartString){
+        if(!cartString) return null;
+        const obj = JSON.parse(cartString);
+        // json file to shopping cart obj
+        const sc = new ShoppingCart(obj.uid)
+        sc.items = obj.items
+        return sc;
     }
 
     // get amt from shopping cart
