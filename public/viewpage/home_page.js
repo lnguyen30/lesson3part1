@@ -4,6 +4,7 @@ import * as FirebaseController from '../controller/firebase_controller.js'
 import * as Constant from '../model/constant.js'
 import * as Util from './util.js'
 import * as Auth from '../controller/auth.js'
+import { ShoppingCart } from '../model/ShoppingCart.js'
 
 //event listeners for home page
 export function addEventListeners(){
@@ -13,6 +14,9 @@ export function addEventListeners(){
         await home_page();
     })
 }
+
+//global variable
+let cart;
 
 export async function home_page(){
     
@@ -38,6 +42,8 @@ export async function home_page(){
             //index of the products array from form
             const p = products[e.target.index.value]
             //dec p from cart
+            cart.removeItem(p);
+            document.getElementById('qty-' + p.docId).innerHTML = p.qty;
         })
     }
 
@@ -49,6 +55,8 @@ export async function home_page(){
             //index of the products array from form
             const p = products[e.target.index.value]
             //inc p to cart
+            cart.addItem(p);
+            document.getElementById('qty-' + p.docId).innerHTML = (p.qty == 0 || p.qty == null) ? 'Add' : p.qty;
         })
     }
 }
@@ -68,7 +76,7 @@ function buildProductView(product, index){
                     <input type="hidden" name="index" value="${index}">
                     <button class="btn btn-outline-danger" type="submit">&minus;</button>
                 </form>
-                <div class="container rounded text-center text-white bg-primary d-inline-block w-50">
+                <div id="qty-${product.docId}" class="container rounded text-center text-white bg-primary d-inline-block w-50">
                     ${product.qty == null || product.qty == 0 ? 'Add' : product.qty}
                 </div>
                 <form method="post" class="d-inline form-inc-qty">
@@ -79,4 +87,9 @@ function buildProductView(product, index){
         </div>
     </div>
     `;
+}
+
+//user calls cart object when signed in
+export function initShoppingCart(){
+    cart = new ShoppingCart(Auth.currentUser.uid);
 }
