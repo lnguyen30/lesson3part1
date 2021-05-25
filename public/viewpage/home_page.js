@@ -43,7 +43,10 @@ export async function home_page(){
             const p = products[e.target.index.value]
             //dec p from cart
             cart.removeItem(p);
+            //updates label amount
             document.getElementById('qty-' + p.docId).innerHTML = (p.qty == 0 || p.qty == null) ? 'Add' : p.qty;
+            //upates shopping cart count
+            Element.shoppingCartCount.innerHTML = cart.getTotalQty();
         })
     }
 
@@ -56,7 +59,10 @@ export async function home_page(){
             const p = products[e.target.index.value]
             //inc p to cart
             cart.addItem(p);
+            // updates label amount
             document.getElementById('qty-' + p.docId).innerHTML = p.qty;
+            Element.shoppingCartCount.innerHTML = cart.getTotalQty();
+
 
         })
     }

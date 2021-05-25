@@ -8,7 +8,7 @@ export class ShoppingCart {
     addItem(product){
         //if product already exits in the product array, the push into items array
         // example if product 1 is already in cart, increase it by another 
-        const item = this.items.find(e=> product.docId = e.docId);
+        const item = this.items.find(e=> product.docId == e.docId);
         //if product is new or no items in cart
         if(!item){
             product.qty = 1;
@@ -40,4 +40,14 @@ export class ShoppingCart {
         }
 
     }
+
+    // get amt from shopping cart
+    getTotalQty(){
+        let n = 0;
+        //iterates through cart and inc n by amount of items
+        this.items.forEach(e=>{n+=e.qty}) 
+        return n;
+    }
+
+
 }
