@@ -72,12 +72,31 @@ export async function cart_page(){
 
     Element.root.innerHTML = html;
 
+    //variable for continue button 
     const continueButton =document.getElementById('button-continue-shopping');
+
     //event listener for continue
     continueButton.addEventListener('click', async () =>{
         // url for home page
         history.pushState(null, null, Route.routePathnames.HOME);
         await Home.home_page();
     });
+
+    //variable for checkout button 
+    const checkoutButton =document.getElementById('button-checkout');
+
+    //event listener for checkout
+    checkoutButton.addEventListener('click', async () =>{
+       // save cart info as purchase history to firestore
+
+       Util.info('Success', 'Checkout Complete')
+       //remove localstorage of cart
+       window.localStorage.removeItem(`cart-${Auth.currentUser.uid}`);
+       cart.empty();
+       Element.shoppingCartCount.innerHTML = '0';
+       history.pushState(null, null, Route.routePathnames.HOME);
+       await Home.home_page();
+    });
+    
 
 }

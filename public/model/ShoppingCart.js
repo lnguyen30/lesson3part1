@@ -96,5 +96,9 @@ export class ShoppingCart {
         return total;
     }
 
+    empty(){
+        this.items.length = 0;
+    }
+
 
 }
