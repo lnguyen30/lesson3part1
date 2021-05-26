@@ -72,4 +72,12 @@ export async function cart_page(){
 
     Element.root.innerHTML = html;
 
+    const continueButton =document.getElementById('button-continue-shopping');
+    //event listener for continue
+    continueButton.addEventListener('click', async () =>{
+        // url for home page
+        history.pushState(null, null, Route.routePathnames.HOME);
+        await Home.home_page();
+    });
+
 }
