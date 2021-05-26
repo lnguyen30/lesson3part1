@@ -65,6 +65,10 @@ export async function cart_page(){
     html += `
         <div style="font-size: 150%";>Total: ${Util.currency(cart.getTotalPrice())}</div>
     `
+    html += `
+        <button id="button-checkout" class="btn btn-outline-primary">Check Out</button>
+        <button id="button-continue-shopping" class="btn btn-outline-secondary">Continue Shopping</button>
+    `
 
     Element.root.innerHTML = html;
 
