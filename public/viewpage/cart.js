@@ -1,5 +1,8 @@
 import * as Element from './element.js'
 import * as Route from '../controller/route.js'
+import * as Auth from '../controller/auth.js'
+import * as Home from './home_page.js'
+import * as Util from './util.js'
 
 //event listeners for home page
 export function addEventListeners(){
@@ -9,6 +12,54 @@ export function addEventListeners(){
     })
 }
 
+//renders shopping cart page
 export async function cart_page(){
-    Element.root.innerHTML ='<h1>Cart Page</h1>'
+    if(!Auth.currentUser){
+        Element.root.innerHTML = '<h1>Protected Page</h1>'
+        return;
+    }
+    let html ='<h1>Cart Page</h1>'
+
+    // fetches the cart from home page
+    const cart = Home.cart;
+    // if cart if empty, then return message
+    if (!cart || cart.getTotalQty() == 0){
+        html +='<h1>Empty cart, Buy More</h1>';
+        Element.root.innerHTML = html;
+        return;
+    }
+
+    //table body for cart page
+    html += `
+    <table class="table">
+    <thead>
+        <tr>
+         <th scope="col">Image</th>
+         <th scope="col">Name</th>
+         <th scope="col">Unit Price</th>
+         <th scope="col">Quantity</th>
+         <th scope="col">Sub-Total</th>
+         <th scope="col" width="50%">Summary</th>
+
+        </tr>
+    </thead>
+    <tbody>
+    `;
+
+    //iterate through each item, table row for each item
+    cart.items.forEach(item=>{
+        html += `
+            <tr>
+                <td><img src="${item.imageURL}" width="150px"></td>
+                <td>${item.name}</td>
+                <td>${Util.currency(item.price)}</td>
+                <td>${item.qty}</td>
+                <td>${Util.currency(item.qty * item.price)}</td>
+                <td>${item.summary}</td>
+            </tr>
+        `
+    });
+
+    Element.root.innerHTML = html;
+
 }
