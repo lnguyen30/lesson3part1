@@ -31,7 +31,7 @@ export async function cart_page(){
 
     //table body for cart page
     html += `
-    <table class="table">
+    <table class="table table-striped">
     <thead>
         <tr>
          <th scope="col">Image</th>
@@ -59,6 +59,12 @@ export async function cart_page(){
             </tr>
         `
     });
+
+    html += '</tbody></table>'
+    //calls getTotalPrice for total price
+    html += `
+        <div style="font-size: 150%";>Total: ${Util.currency(cart.getTotalPrice())}</div>
+    `
 
     Element.root.innerHTML = html;
 

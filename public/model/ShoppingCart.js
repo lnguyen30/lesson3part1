@@ -86,5 +86,15 @@ export class ShoppingCart {
         return n;
     }
 
+    //get total price of items
+    getTotalPrice(){
+        let total = 0;
+        this.items.forEach(item=>{
+            total += item.price * item.qty;
+        });
+
+        return total;
+    }
+
 
 }
