@@ -44,7 +44,7 @@ export async function home_page(){
     }
 
     Element.root.innerHTML = html;
-
+    //event listener for decreasing items
     const decForms = document.getElementsByClassName('form-dec-qty');
     for(let i =0; i< decForms.length; i++){
         decForms[i].addEventListener('submit', e=>{
@@ -60,7 +60,7 @@ export async function home_page(){
         })
     }
 
-
+    //event listener for increasing items
     const incForms = document.getElementsByClassName('form-inc-qty');
     for(let i =0; i< incForms.length; i++){
         incForms[i].addEventListener('submit', e=>{
